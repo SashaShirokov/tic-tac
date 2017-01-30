@@ -1,6 +1,6 @@
 class TicTacToe {
     constructor() {
-
+      this.
     }
 
     getCurrentPlayerSymbol() {
