@@ -4,7 +4,8 @@ class TicTacToe {
       this.playerO = "o";
       this.curPlayer = this.playerX;
       this.board = ["E", "E", "E", "E", "E", "E", "E", "E", "E"];
-      this.index = [ [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8] ];
+      this.index = [ [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [2, 4, 6], [0, 4, 8] ];
+      this.win = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [2, 4, 6], [0, 4, 8]];
     }
 
     getCurrentPlayerSymbol() {
@@ -17,6 +18,12 @@ class TicTacToe {
           if (i === columnIndex) {
             if (this.board[this.index[0][i]] === "E") {
               this.board[this.index[0][i]] = this.curPlayer;
+              for (var k = 0; k < this.win.length; k ++) {
+                for (var g = 0; g < this.win[k].length; g ++) {
+                  if (this.win[k][g] === this.index[0][i])
+                  this.win[k][g] = this.curPlayer;
+                }
+              }
               this.curPlayer = this.curPlayer === "x" ? "o" : "x";
             } else {
               return this.curPlayer;
@@ -28,6 +35,12 @@ class TicTacToe {
           if (i === columnIndex) {
             if (this.board[this.index[1][i]] === "E") {
               this.board[this.index[1][i]] = this.curPlayer;
+              for (var k = 0; k < this.win.length; k ++) {
+                for (var g = 0; g < this.win[k].length; g ++) {
+                  if (this.win[k][g] === this.index[1][i])
+                  this.win[k][g] = this.curPlayer;
+                }
+              }
               this.curPlayer = this.curPlayer === "x" ? "o" : "x";
             } else {
               return this.curPlayer;
@@ -39,6 +52,12 @@ class TicTacToe {
           if (i === columnIndex) {
             if (this.board[this.index[2][i]] === "E") {
               this.board[this.index[2][i]] = this.curPlayer;
+              for (var k = 0; k < this.win.length; k ++) {
+                for (var g = 0; g < this.win[k].length; g ++) {
+                  if (this.win[k][g] === this.index[2][i])
+                  this.win[k][g] = this.curPlayer;
+                }
+              }
               this.curPlayer = this.curPlayer === "x" ? "o" : "x";
             } else {
               return this.curPlayer;
@@ -49,27 +68,23 @@ class TicTacToe {
     }
 
     isFinished() {
-
+      if (this.getWinner() !== null || this.noMoreTurns() !== false) {
+        return true;
+      }
+      return false;
     }
 
+
+
     getWinner() {
-      for (var i = 0; i <= 6; i = i + 3) {
-        if (this.board[i] !== "E" && this.board[i] === this.board[i + 1] && this.board[i + 1] === this.board[i + 2]) {
-          return this.board[i];
+      for (var i = 0; i < this.win.length; i ++) {
+        for (var j = 0; j < this.win[i].length; j ++) {
+          if (this.win[i][j] === this.win[i][j + 1] && this.win[i][j] === this.win[i][j + 2]) {
+            return this.win[i][j];
+          }
         }
       }
-
-      for (var i = 0; i <= 2; i ++) {
-        if (this.board[i] !== "E" && this.board[i] === this.board[i + 3] && this.board[i + 3] === this.board[i + 6]) {
-          return this.board[i];
-        }
-      }
-
-      for (var i = 0, j = 4; i <= 2; i = i + 2, j = j - 2) {
-        if (this.board[i] !== "E" && this.board[i] === this.board[i + j] && this.board[i + j] === this.board[i + 2 * j]) {
-          return this.board[i];
-        }
-      }
+       return null;
     }
 
     noMoreTurns() {
@@ -82,7 +97,10 @@ class TicTacToe {
     }
 
     isDraw() {
-
+      if ((this.getWinner() === null) && (this.noMoreTurns() === true)) {
+        return true;
+      }
+      return false;
     }
 
     getFieldValue(rowIndex, colIndex) {
@@ -96,7 +114,6 @@ class TicTacToe {
             } else if (this.board[this.index[0][i]] === "E") {
               return null;
             }
-            return false;
           }
         }
       } else if (rowIndex === 1) {
@@ -109,7 +126,6 @@ class TicTacToe {
             } else if (this.board[this.index[1][i]] === "E") {
               return null;
             }
-            return false;
           }
         }
       } else if (rowIndex === 2) {
@@ -122,7 +138,6 @@ class TicTacToe {
             } else if (this.board[this.index[2][i]] === "E") {
               return null;
             }
-            return false;
           }
         }
       }
